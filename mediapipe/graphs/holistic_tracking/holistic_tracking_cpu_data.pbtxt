@@ -1,0 +1,40 @@
+# CPU image. (ImageFrame)
+input_stream: "input_video"
+
+# Landmark Data. (NormalizedLandmarkList)
+output_stream: "body_landmark_list"
+
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:0:upper_body_only"
+  output_side_packet: "PACKET:1:smooth_landmarks"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { bool_value: false }
+      packet { bool_value: true }
+    }
+  }
+}
+
+node {
+  calculator: "HolisticLandmarkCpuNoFace"
+  input_stream: "IMAGE:input_video"
+  input_side_packet: "UPPER_BODY_ONLY:upper_body_only"
+  input_side_packet: "SMOOTH_LANDMARKS:smooth_landmarks"
+  output_stream: "POSE_LANDMARKS:pose_landmarks"
+  output_stream: "POSE_ROI:pose_roi"
+  output_stream: "POSE_DETECTION:pose_detection"
+  output_stream: "LEFT_HAND_LANDMARKS:left_hand_landmarks"
+  output_stream: "RIGHT_HAND_LANDMARKS:right_hand_landmarks"
+}
+
+# Landmark Data Post-process and merged into a NormalizedLandmarkList.
+node {
+  calculator: "HolisticTrackingDataPostprocess"
+  input_stream: "POSE_LANDMARKS:pose_landmarks"
+  input_stream: "LEFT_HAND_LANDMARKS:left_hand_landmarks"
+  input_stream: "RIGHT_HAND_LANDMARKS:right_hand_landmarks"
+  input_side_packet: "UPPER_BODY_ONLY:upper_body_only"
+  output_stream: "body_landmark_list"
+}
+

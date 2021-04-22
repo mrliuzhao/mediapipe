@@ -1,0 +1,152 @@
+# Converts pose + hands landmarks to a render data vector.
+
+type: "HolisticTrackingDataPostprocess"
+
+# Pose landmarks. (NormalizedLandmarkList)
+input_stream: "POSE_LANDMARKS:landmarks"
+# Left hand landmarks. (NormalizedLandmarkList)
+input_stream: "LEFT_HAND_LANDMARKS:left_hand_landmarks"
+# Right hand landmarks. (NormalizedLandmarkList)
+input_stream: "RIGHT_HAND_LANDMARKS:right_hand_landmarks"
+
+# Whether to render the full set of pose landmarks, or only those on the
+# upper body. If unspecified, functions as set to false. (bool)
+input_side_packet: "UPPER_BODY_ONLY:upper_body_only"
+
+# Merged all body landmarks. (NormalizedLandmarkList)
+output_stream: "total_body_landmarks"
+
+# --------------------------------------------------------------------------- #
+# --------------- Combines pose and hands into pose skeleton ---------------- #
+# --------------------------------------------------------------------------- #
+
+# Gets pose landmarks before wrists.
+node {
+  calculator: "SplitNormalizedLandmarkListCalculator"
+  input_stream: "landmarks"
+  output_stream: "landmarks_before_wrist"
+  output_stream: "landmarks_left_wrist"
+  output_stream: "landmarks_right_wrist"
+
+  node_options: {
+    [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
+      ranges: { begin: 0 end: 15 }
+      ranges: { begin: 15 end: 16 }
+      ranges: { begin: 16 end: 17 }
+    }
+  }
+}
+
+# Gets pose landmarks after wrists.
+node {
+  calculator: "SwitchContainer"
+  input_side_packet: "ENABLE:upper_body_only"
+  input_stream: "landmarks"
+  output_stream: "landmarks_after_wrist"
+  node_options: {
+    [type.googleapis.com/mediapipe.SwitchContainerOptions] {
+      contained_node: {
+        calculator: "SplitNormalizedLandmarkListCalculator"
+        node_options: {
+          [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
+            ranges: { begin: 23 end: 33 }
+          }
+        }
+      }
+      contained_node: {
+        calculator: "SplitNormalizedLandmarkListCalculator"
+        node_options: {
+          [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
+            ranges: { begin: 23 end: 25 }
+          }
+        }
+      }
+    }
+  }
+}
+
+# Gets left hand wrist landmark.
+node {
+  calculator: "HandWristForPose"
+  input_stream: "HAND_LANDMARKS:left_hand_landmarks"
+  output_stream: "WRIST_LANDMARK:left_hand_wrist_landmark"
+}
+
+# Gets left hand wrist landmark or keep pose wrist landmark if hand was not
+# predicted.
+node {
+  calculator: "MergeCalculator"
+  input_stream: "left_hand_wrist_landmark"
+  input_stream: "landmarks_left_wrist"
+  output_stream: "merged_left_hand_wrist_landmark"
+}
+
+# Gets right hand wrist landmark.
+node {
+  calculator: "HandWristForPose"
+  input_stream: "HAND_LANDMARKS:right_hand_landmarks"
+  output_stream: "WRIST_LANDMARK:right_hand_wrist_landmark"
+}
+
+# Gets right hand wrist landmark or keep pose wrist landmark if hand was not
+# predicted.
+node {
+  calculator: "MergeCalculator"
+  input_stream: "right_hand_wrist_landmark"
+  input_stream: "landmarks_right_wrist"
+  output_stream: "merged_right_hand_wrist_landmark"
+}
+
+# Gets left hand key landmarks
+node {
+  calculator: "SplitNormalizedLandmarkListCalculator"
+  input_stream: "left_hand_landmarks"
+  output_stream: "landmarks_left_thumbtip"
+  output_stream: "landmarks_left_palm"
+  output_stream: "landmarks_left_tip"
+  node_options: {
+    [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
+      ranges: { begin: 4 end: 5 }
+      ranges: { begin: 9 end: 10 }
+      ranges: { begin: 12 end: 13 }
+    }
+  }
+}
+
+# Gets right hand key landmarks
+node {
+  calculator: "SplitNormalizedLandmarkListCalculator"
+  input_stream: "right_hand_landmarks"
+  output_stream: "landmarks_right_thumbtip"
+  output_stream: "landmarks_right_palm"
+  output_stream: "landmarks_right_tip"
+  node_options: {
+    [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
+      ranges: { begin: 4 end: 5 }
+      ranges: { begin: 9 end: 10 }
+      ranges: { begin: 12 end: 13 }
+    }
+  }
+}
+
+# Combines pose landmarks all together.
+node {
+  calculator: "ConcatenateNormalizedLandmarkListCalculatorV2"
+  input_stream: "landmarks_before_wrist"
+  input_stream: "merged_left_hand_wrist_landmark"
+  input_stream: "merged_right_hand_wrist_landmark"
+  input_stream: "landmarks_after_wrist"
+  input_stream: "landmarks_left_thumbtip"
+  input_stream: "landmarks_left_palm"
+  input_stream: "landmarks_left_tip"
+  input_stream: "landmarks_right_thumbtip"
+  input_stream: "landmarks_right_palm"
+  input_stream: "landmarks_right_tip"
+  output_stream: "total_body_landmarks"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConcatenateVectorCalculatorOptions] {
+      only_emit_if_all_present: true
+    }
+  }
+}
+

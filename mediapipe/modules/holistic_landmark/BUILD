@@ -265,3 +265,17 @@ mediapipe_simple_subgraph(
         "//mediapipe/modules/pose_landmark:pose_landmark_cpu",
     ],
 )
+
+# Holistic Landmark without facemesh
+mediapipe_simple_subgraph(
+    name = "holistic_landmark_cpu_noface",
+    graph = "holistic_landmark_cpu_noface.pbtxt",
+    register_as = "HolisticLandmarkCpuNoFace",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":hand_landmarks_left_and_right_cpu",
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/image:image_transformation_calculator",
+        "//mediapipe/modules/pose_landmark:pose_landmark_cpu",
+    ],
+)

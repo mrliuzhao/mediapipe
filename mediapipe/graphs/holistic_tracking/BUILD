@@ -71,3 +71,68 @@ cc_library(
         "//mediapipe/modules/holistic_landmark:holistic_landmark_cpu",
     ],
 )
+
+# Render data without face mesh
+mediapipe_simple_subgraph(
+    name = "holistic_tracking_to_render_data_noface",
+    graph = "holistic_tracking_to_render_data_noface.pbtxt",
+    register_as = "HolisticTrackingToRenderDataNoFace",
+    deps = [
+        "//mediapipe/calculators/core:concatenate_normalized_landmark_list_calculator",
+        "//mediapipe/calculators/core:concatenate_vector_calculator",
+        "//mediapipe/calculators/core:merge_calculator",
+        "//mediapipe/calculators/core:split_normalized_landmark_list_calculator",
+        "//mediapipe/calculators/core:split_vector_calculator",
+        "//mediapipe/calculators/util:detections_to_render_data_calculator",
+        "//mediapipe/calculators/util:landmarks_to_render_data_calculator",
+        "//mediapipe/calculators/util:rect_to_render_data_calculator",
+        "//mediapipe/calculators/util:rect_to_render_scale_calculator",
+        "//mediapipe/framework/tool:switch_container",
+        "//mediapipe/modules/holistic_landmark:hand_wrist_for_pose",
+    ],
+)
+
+cc_library(
+    name = "holistic_tracking_cpu_noface_graph_deps",
+    deps = [
+        ":holistic_tracking_to_render_data_noface",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/image:image_properties_calculator",
+        "//mediapipe/calculators/util:annotation_overlay_calculator",
+        "//mediapipe/modules/holistic_landmark:holistic_landmark_cpu_noface",
+    ],
+)
+
+# Only Fetch Holistic Tracking Data
+mediapipe_simple_subgraph(
+    name = "holistic_tracking_data_postprocess",
+    graph = "holistic_tracking_data_postprocess.pbtxt",
+    register_as = "HolisticTrackingDataPostprocess",
+    deps = [
+        "//mediapipe/calculators/core:concatenate_normalized_landmark_list_calculator_v2",
+        "//mediapipe/calculators/core:concatenate_vector_calculator",
+        "//mediapipe/calculators/core:merge_calculator",
+        "//mediapipe/calculators/core:split_normalized_landmark_list_calculator",
+        "//mediapipe/calculators/core:split_vector_calculator",
+        "//mediapipe/calculators/util:detections_to_render_data_calculator",
+        "//mediapipe/calculators/util:landmarks_to_render_data_calculator",
+        "//mediapipe/calculators/util:rect_to_render_data_calculator",
+        "//mediapipe/calculators/util:rect_to_render_scale_calculator",
+        "//mediapipe/framework/tool:switch_container",
+        "//mediapipe/modules/holistic_landmark:hand_wrist_for_pose",
+    ],
+)
+
+cc_library(
+    name = "holistic_tracking_data_graph_deps",
+    deps = [
+        ":holistic_tracking_data_postprocess",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/image:image_properties_calculator",
+        "//mediapipe/calculators/util:annotation_overlay_calculator",
+        "//mediapipe/modules/holistic_landmark:holistic_landmark_cpu_noface",
+    ],
+)
+
