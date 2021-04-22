@@ -53,6 +53,25 @@ cc_library(
     ],
 )
 
+# similar to demo_run_graph_main, this module use azure kinect as input. 
+cc_library(
+    name = "run_graph_kinect",
+    srcs = ["run_graph_kinect.cc"],
+    deps = [
+        "@kinect//:kinect",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/formats:image_frame",
+        "//mediapipe/framework/formats:image_frame_opencv",
+        "//mediapipe/framework/port:commandlineflags",
+        "//mediapipe/framework/port:file_helpers",
+        "//mediapipe/framework/port:opencv_highgui",
+        "//mediapipe/framework/port:opencv_imgproc",
+        "//mediapipe/framework/port:opencv_video",
+        "//mediapipe/framework/port:parse_text_proto",
+        "//mediapipe/framework/port:status",
+    ],
+)
+
 # Linux only.
 # Must have a GPU with EGL support:
 # ex: sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
