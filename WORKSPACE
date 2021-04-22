@@ -234,6 +234,7 @@ new_local_repository(
     build_file = "@//third_party:kinectBodyTracking.BUILD",
 )
 
+# ATL and MFC Library
 new_local_repository(
     name = "atl_mfc",
     path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.28.29333\\atlmfc",

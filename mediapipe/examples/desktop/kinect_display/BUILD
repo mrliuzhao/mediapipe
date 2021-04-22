@@ -1,3 +1,5 @@
+# Basic Kinect Display Demo. Verify reference of Azure Kinect libraries in Windows
+
 licenses(["notice"])
 
 package(default_visibility = ["//mediapipe/examples:__subpackages__"])
