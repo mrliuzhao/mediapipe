@@ -297,6 +297,22 @@ cc_library(
     alwayslink = 1,
 )
 
+# another version of ConcatenateNormalizedLandmarkListCalculator, output empty list when miss input
+cc_library(
+    name = "concatenate_normalized_landmark_list_calculator_v2",
+    srcs = ["concatenate_normalized_landmark_list_calculator_v2.cc"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":concatenate_vector_calculator_cc_proto",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/api2:node",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/port:status",
+    ],
+    alwayslink = 1,
+)
+
 cc_test(
     name = "concatenate_normalized_landmark_list_calculator_test",
     srcs = ["concatenate_normalized_landmark_list_calculator_test.cc"],
