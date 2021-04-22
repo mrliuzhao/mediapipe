@@ -219,7 +219,25 @@ new_local_repository(
 new_local_repository(
     name = "windows_opencv",
     build_file = "@//third_party:opencv_windows.BUILD",
-    path = "C:\\opencv\\build",
+    path = "D:\\OpenCV3.4.10\\opencv\\build",
+)
+
+# Azure Kinect Dependencies
+new_local_repository(
+    name = "kinect",
+    path = "C:\\Program Files\\Azure Kinect SDK v1.4.0\\sdk",
+    build_file = "@//third_party:kinect.BUILD",
+)
+new_local_repository(
+    name = "kinectBodyTracking",
+    path = "D:\\AzureKinectBodyTrackingSDK\\sdk",
+    build_file = "@//third_party:kinectBodyTracking.BUILD",
+)
+
+new_local_repository(
+    name = "atl_mfc",
+    path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.28.29333\\atlmfc",
+    build_file = "@//third_party:atl_mfc.BUILD",
 )
 
 http_archive(
