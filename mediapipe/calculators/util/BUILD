@@ -848,6 +848,23 @@ cc_library(
     alwayslink = 1,
 )
 
+# Anothre version of LandmarksSmoothingCalculator which will emits an empty landmark list without an input
+cc_library(
+    name = "landmarks_smoothing_calculator_v2",
+    srcs = ["landmarks_smoothing_calculatorV2.cc"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":landmarks_smoothing_calculator_cc_proto",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework:timestamp",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/util/filtering:relative_velocity_filter",
+        "@com_google_absl//absl/algorithm:container",
+    ],
+    alwayslink = 1,
+)
+
 mediapipe_proto_library(
     name = "visibility_smoothing_calculator_proto",
     srcs = ["visibility_smoothing_calculator.proto"],

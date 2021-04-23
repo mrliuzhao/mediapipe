@@ -26,11 +26,13 @@ cc_library(
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_properties_calculator",
-        "//mediapipe/calculators/util:landmarks_smoothing_calculator",
+        # "//mediapipe/calculators/util:landmarks_smoothing_calculator",
+        "//mediapipe/calculators/util:landmarks_smoothing_calculator_v2",
         "//mediapipe/graphs/pose_tracking/subgraphs:pose_renderer_gpu",
         "//mediapipe/modules/pose_landmark:pose_landmark_gpu",
     ],
 )
+
 
 mediapipe_binary_graph(
     name = "pose_tracking_gpu_binary_graph",
