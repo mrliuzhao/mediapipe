@@ -211,6 +211,20 @@ new_local_repository(
     path = "/usr"
 )
 
+# Boost library
+new_local_repository(
+    name = "boost",
+    build_file = "@//third_party:boost.BUILD",
+    path = "/usr/local"
+)
+
+# RabbitMQ library
+new_local_repository(
+    name = "rabbitmq",
+    build_file = "@//third_party:rabbitmq.BUILD",
+    path = "/usr/local"
+)
+
 new_local_repository(
     name = "macos_opencv",
     build_file = "@//third_party:opencv_macos.BUILD",
