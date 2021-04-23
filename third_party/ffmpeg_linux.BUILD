@@ -20,10 +20,14 @@ cc_library(
     name = "libffmpeg",
     srcs = glob(
         [
-            "lib/x86_64-linux-gnu/libav*.so",
+            "lib/aarch64-linux-gnu/libav*.so",
+            "lib/aarch64-linux-gnu/libsw*.so",
         ],
     ),
-    hdrs = glob(["include/x86_64-linux-gnu/libav*/*.h"]),
+    hdrs = glob([
+        "include/aarch64-linux-gnu/libav*/*.h",
+        "include/aarch64-linux-gnu/libsw*/*.h",
+    ]),
     includes = ["include"],
     linkopts = [
         "-lavcodec",
