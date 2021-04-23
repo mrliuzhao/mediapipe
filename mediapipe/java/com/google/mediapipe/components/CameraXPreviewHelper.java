@@ -180,7 +180,11 @@ public class CameraXPreviewHelper extends CameraHelper {
             return;
           }
 
-          preview = new Preview.Builder().setTargetResolution(rotatedSize).build();
+          // preview = new Preview.Builder().setTargetResolution(rotatedSize).build();
+          preview = new Preview.Builder()
+          // .setTargetResolution(rotatedSize)
+          .setTargetResolution(new Size(640, 480))
+          .build();
 
           // CameraSelector cameraSelector =
           //     cameraFacing == CameraHelper.CameraFacing.FRONT
