@@ -204,6 +204,13 @@ new_local_repository(
     path = "/usr"
 )
 
+# SDL2 library
+new_local_repository(
+    name = "linux_SDL2",
+    build_file = "@//third_party:SDL2_linux.BUILD",
+    path = "/usr"
+)
+
 new_local_repository(
     name = "macos_opencv",
     build_file = "@//third_party:opencv_macos.BUILD",
