@@ -39,8 +39,13 @@ public class MainActivity extends com.google.mediapipe.apps.basic.MainActivity {
           (packet) -> {
             Log.v(TAG, "Received pose landmarks packet.");
             try {
-              NormalizedLandmarkList poseLandmarks =
-                  PacketGetter.getProto(packet, NormalizedLandmarkList.class);
+              // NormalizedLandmarkList poseLandmarks =
+              //     PacketGetter.getProto(packet, NormalizedLandmarkList.class);
+
+              // Parse from raw data
+              byte[] landmarksRaw = PacketGetter.getProtoBytes(packet);
+              NormalizedLandmarkList poseLandmarks = NormalizedLandmarkList.parseFrom(landmarksRaw);
+              
               Log.v(
                   TAG,
                   "[TS:"
