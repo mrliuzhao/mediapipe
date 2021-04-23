@@ -182,10 +182,11 @@ public class CameraXPreviewHelper extends CameraHelper {
 
           preview = new Preview.Builder().setTargetResolution(rotatedSize).build();
 
-          CameraSelector cameraSelector =
-              cameraFacing == CameraHelper.CameraFacing.FRONT
-                  ? CameraSelector.DEFAULT_FRONT_CAMERA
-                  : CameraSelector.DEFAULT_BACK_CAMERA;
+          // CameraSelector cameraSelector =
+          //     cameraFacing == CameraHelper.CameraFacing.FRONT
+          //         ? CameraSelector.DEFAULT_FRONT_CAMERA
+          //         : CameraSelector.DEFAULT_BACK_CAMERA;
+          CameraSelector cameraSelector = new CameraSelector.Builder().build();
 
           // Provide surface texture.
           preview.setSurfaceProvider(
