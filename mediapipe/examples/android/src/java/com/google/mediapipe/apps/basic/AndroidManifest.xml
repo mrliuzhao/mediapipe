@@ -16,7 +16,8 @@
       android:label="${appName}"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
-      android:theme="@style/AppTheme">
+      android:theme="@android:style/Theme.Black.NoTitleBar">
+      <!-- android:theme="@style/AppTheme"> -->
       <activity
           android:name="${mainActivity}"
           android:exported="true"
