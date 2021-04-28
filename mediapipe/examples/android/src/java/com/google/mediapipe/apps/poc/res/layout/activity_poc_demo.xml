@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--  Main Content  -->
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <SurfaceView
+            android:id="@+id/content_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"/>
+
+        <View
+            android:id="@+id/vertical_sep"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="#399ED8"
+            />
+
+        <SurfaceView
+            android:id="@+id/content_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+
+    </LinearLayout>
+
+    <!-- Footer -->
+    <LinearLayout
+        android:id="@+id/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/footer_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:background="#00FFFFFF" />
+
+        <LinearLayout
+            android:id="@+id/footer_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="#995E859B" >
+
+            <TextView
+                android:id="@+id/train_time_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:format="%s"
+                android:text="训练时长："
+                android:textSize="16sp"
+                android:gravity="end|center_vertical"
+                android:textColor="#FFFFFF"
+                />
+
+            <Chronometer
+                android:id="@+id/train_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:format="%s"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="#FFFFFF"
+                />
+
+            <TextView
+                android:id="@+id/train_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="训练个数：N/A"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                />
+
+            <TextView
+                android:id="@+id/left_abduction"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="左臂外展：N/A"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                />
+
+            <TextView
+                android:id="@+id/right_abduction"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="右臂外展：N/A"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
